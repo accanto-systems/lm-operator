@@ -1,0 +1,175 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: alms.com.accantosystems.stratoss
+spec:
+  group: com.accantosystems.stratoss
+  names:
+    kind: ALM
+    listKind: ALMList
+    plural: alms
+    singular: alm
+  scope: Namespaced
+  subresources:
+    status: {}
+  validation:
+    openAPIV3Schema:
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          properties:
+            release:
+              type: string
+            configurator:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM-configurator'
+                  type: string
+                Run:
+                  type: boolean
+                  description: should lm-configurator be run?
+              type: object
+            apollo:
+              properties:
+                JVMOptions:
+                  description: 'INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
+                    Important: Run "operator-sdk generate k8s" to regenerate code
+                    after modifying this file Add custom validation using kubebuilder
+                    tags: https://book-v1.book.kubebuilder.io/beyond_basics/generating_crd.html'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            conductor:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Conductor'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            daytona:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Daytona'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            deploymentType:
+              type: string
+            dockerRepo:
+              type: string
+            doki:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Doki'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            galileo:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Galileo'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            ishtar:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Ishtar'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            nimrod:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Nimrod'
+                  type: string
+                ThemesConfigMap:
+                  type: string
+                LocalesConfigMap:
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            relay:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Relay'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            secure:
+              description: 'Should LM be installed in secure mode?'
+              type: boolean
+            springCloudConfigLabel:
+              description: ''
+              type: string
+            springProfilesActive:
+              type: string
+            talledega:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Talledega'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            watchtower:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Watchtower'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+            brent:
+              properties:
+                JVMOptions:
+                  description: 'JVM options to configure for LM Brent'
+                  type: string
+              required:
+              - JVMOptions
+              type: object
+          required:
+          - springCloudConfigLabel
+          - springProfilesActive
+          - deploymentType
+          - dockerRepo
+          - configurator
+          - release
+          - conductor
+          - apollo
+          - galileo
+          - talledega
+          - daytona
+          - nimrod
+          - ishtar
+          - relay
+          - watchtower
+          - doki
+          - brent
+          type: object
+        status:
+          type: object
+  version: v1alpha1
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
