@@ -36,6 +36,11 @@ type SecurityConfig struct {
 	CassandraUsername                  string
 	CassandraPassword                  string
 	SecurityClientCredentialsConfig    string
+	LoggingDashboardEnabled            string
+	LoggingDashboardEndpoint           string
+	LoggingDashboardApplication        string
+	KibanaIndex                        string
+	KibanaConfigurationEndpoint        string
 }
 
 type configuratorConfig struct {
@@ -248,17 +253,10 @@ func buildConfiguratorCM(name string, cr *comv1alpha1.ALM, configuratorDeploymen
 		DokiRoles:          "BehaviourScenarioExecute",
 	}
 
-	t, err = template.New("clientCredentials").Parse("- clientId: {{.LMClientID}}\n" +
-		"  clientSecret: {{.LMClientSecret}}\n" +
-		"  grantTypes: {{.LMGrantTypes}}\n" +
-		"  roles: {{.LMRoles}}\n" +
-		"- clientId: {{.NimrodClientID}}\n" +
-		"  clientSecret: {{.NimrodClientSecret}}\n" +
-		"  grantTypes: {{.NimrodGrantTypes}}\n" +
-		"- clientId: {{.DokiClientID}}\n" +
-		"  clientSecret: {{.DokiClientSecret}}\n" +
-		"  grantTypes: {{.DokiGrantTypes}}\n" +
-		"  roles: {{.DokiRoles}}\n")
+	t, err = template.New("clientCredentials").Parse("    - clientId: {{.LMClientID}}\n" +
+		"      clientSecret: {{.LMClientSecret}}\n" +
+		"      grantTypes: {{.LMGrantTypes}}\n" +
+		"      roles: {{.LMRoles}}\n")
 	if err != nil {
 		return nil, err
 	}
@@ -291,6 +289,11 @@ func buildConfiguratorCM(name string, cr *comv1alpha1.ALM, configuratorDeploymen
 			CassandraUsername:                  "",
 			CassandraPassword:                  "",
 			SecurityClientCredentialsConfig:    clientCredentialsTpl.String(),
+			LoggingDashboardEnabled:            "true",
+			LoggingDashboardEndpoint:           "http://ui.lm:31001",
+			LoggingDashboardApplication:        "kibana",
+			KibanaIndex:                        "lm-logs",
+			KibanaConfigurationEndpoint:        "http://foundation-kibana:443",
 		},
 	}
 
@@ -321,6 +324,11 @@ func buildConfiguratorCM(name string, cr *comv1alpha1.ALM, configuratorDeploymen
 			"securityBrentHost":                  config.SecurityConfig.SecurityBrentHost,
 			"cassandraUsername":                  config.SecurityConfig.CassandraUsername,
 			"cassandraPassword":                  config.SecurityConfig.CassandraPassword,
+			"loggingDashboardEnabled":            config.SecurityConfig.LoggingDashboardEnabled,
+			"loggingDashboardEndpoint":           config.SecurityConfig.LoggingDashboardEndpoint,
+			"loggingDashboardApplication":        config.SecurityConfig.LoggingDashboardApplication,
+			"kibanaIndex":                        config.SecurityConfig.KibanaIndex,
+			"kibanaConfigurationEndpoint":        config.SecurityConfig.KibanaConfigurationEndpoint,
 		},
 	}, nil
 }

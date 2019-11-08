@@ -7,8 +7,8 @@ spec:
   springCloudConfigLabel: master
   springProfilesActive: ""
   deploymentType: Middle
-  dockerRepo: 10.220.217.248:32736
-  release: http://10.220.217.248:8086/accanto/lm-operator-releases/raw/master/2.1.0-SNAPSHOT.yaml
+  dockerRepo: nexus.accanto.com:5000
+  release: http://10.220.217.248:8086/accanto/lm-operator-releases/raw/master/2.1.0-alpha-2453.yaml
   configurator:
     Run: true
   conductor:

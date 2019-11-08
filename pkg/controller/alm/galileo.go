@@ -39,12 +39,12 @@ func galileoConfig(processingGuarantee string, numShards int32, numReplicas int3
 	}
 
 	t, err := template.New("galileoConfig").Parse("alm:\n" +
-		"  ldu:\n" +
-		"    streams:\n" +
-		"      processing.guarantee: {{.ProcessingGuarantee}}\n" +
-		"      replication.factor: {{.ReplicatorFactor}}\n" +
-		"      num.standby.replicas: {{.NumStandbyReplicas}}\n" +
 		"  galileo:\n" +
+		"    ldu:\n" +
+		"      streams:\n" +
+		"        processing.guarantee: {{.ProcessingGuarantee}}\n" +
+		"        replication.factor: {{.ReplicatorFactor}}\n" +
+		"        num.standby.replicas: {{.NumStandbyReplicas}}\n" +
 		"    janus:\n" +
 		"      cluster.max-partitions: 4\n" +
 		"      storage.cql.replication-factor: {{.ReplicatorFactor}}\n" +
