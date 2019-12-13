@@ -30,9 +30,18 @@ type SecurityConfig struct {
 	SecurityLdapConfigPassword         string
 	SecurityLdapManagerPassword        string
 	SecurityLdapDomain                 string
-	SecurityUIHost                     string
-	SecurityAPIHost                    string
-	SecurityBrentHost                  string
+	SecurityUIHostGenCert              string
+	SecurityUIHostCommonName           string
+	SecurityUIHostCertSecretName       string
+	SecurityUINoHostGenCert            string
+	SecurityUINoHostCommonName         string
+	SecurityUINoHostCertSecretName     string
+	SecurityAPIHostGenCert             string
+	SecurityAPIHostCommonName          string
+	SecurityAPIHostCertSecretName      string
+	SecurityAPINoHostGenCert           string
+	SecurityAPINoHostCommonName        string
+	SecurityAPINoHostCertSecretName    string
 	CassandraUsername                  string
 	CassandraPassword                  string
 	SecurityClientCredentialsConfig    string
@@ -209,6 +218,9 @@ func buildConfiguratorCM(name string, cr *comv1alpha1.ALM, configuratorDeploymen
 		"    replication_factor: {{.ReplicationFactor}}\n" +
 		"    partitions: {{.NumPartitions}}\n" +
 		"    config: \"retention.ms=31536000000\"\n" +
+		"  alm__verification:\n" +
+		"    replication_factor: 1\n" +
+		"    partitions: 1  \n" +
 		"  lm_vim_infrastructure_task_events:\n" +
 		"    replication_factor: {{.ReplicationFactor}}\n" +
 		"    partitions: {{.NumPartitions}}\n" +
@@ -283,9 +295,17 @@ func buildConfiguratorCM(name string, cr *comv1alpha1.ALM, configuratorDeploymen
 			SecurityLdapConfigPassword:         "config",
 			SecurityLdapManagerPassword:        "lmadmin",
 			SecurityLdapDomain:                 "lm.com",
-			SecurityUIHost:                     "ui.lm",
-			SecurityAPIHost:                    "app.lm",
-			SecurityBrentHost:                  "brent.lm",
+			SecurityUIHostGenCert:              "true",
+			SecurityUIHostCommonName:           "ui.lm",
+			SecurityUIHostCertSecretName:       "nimrod-host-tls",
+			SecurityUINoHostGenCert:            "true",
+			SecurityUINoHostCertSecretName:     "nimrod-nohost-tls",
+			SecurityAPIHostGenCert:             "true",
+			SecurityAPIHostCommonName:          "app.lm",
+			SecurityAPIHostCertSecretName:      "ishtar-host-tls",
+			SecurityAPINoHostGenCert:           "true",
+			SecurityAPINoHostCommonName:        "app.lm",
+			SecurityAPINoHostCertSecretName:    "ishtar-nohost-tls",
 			CassandraUsername:                  "",
 			CassandraPassword:                  "",
 			SecurityClientCredentialsConfig:    clientCredentialsTpl.String(),
@@ -319,9 +339,18 @@ func buildConfiguratorCM(name string, cr *comv1alpha1.ALM, configuratorDeploymen
 			"securityLdapConfigPassword":         config.SecurityConfig.SecurityLdapConfigPassword,
 			"securityLdapManagerPassword":        config.SecurityConfig.SecurityLdapManagerPassword,
 			"securityLdapDomain":                 config.SecurityConfig.SecurityLdapDomain,
-			"securityUiHost":                     config.SecurityConfig.SecurityUIHost,
-			"securityApiHost":                    config.SecurityConfig.SecurityAPIHost,
-			"securityBrentHost":                  config.SecurityConfig.SecurityBrentHost,
+			"securityUiHostGenCert":              config.SecurityConfig.SecurityUIHostGenCert,
+			"securityUiHostCommonName":           config.SecurityConfig.SecurityUIHostCommonName,
+			"securityUiHostCertSecretName":       config.SecurityConfig.SecurityUIHostCertSecretName,
+			"securityUiNoHostGenCert":            config.SecurityConfig.SecurityUINoHostGenCert,
+			"securityUiNoHostCommonName":         config.SecurityConfig.SecurityUINoHostCommonName,
+			"securityUiNoHostCertSecretName":     config.SecurityConfig.SecurityUINoHostCertSecretName,
+			"securityApiHostGenCert":             config.SecurityConfig.SecurityAPIHostGenCert,
+			"securityApiHostCommonName":          config.SecurityConfig.SecurityAPIHostCommonName,
+			"securityApiHostCertSecretName":      config.SecurityConfig.SecurityAPIHostCertSecretName,
+			"securityApiNoHostGenCert":           config.SecurityConfig.SecurityAPINoHostGenCert,
+			"securityApiNoHostCommonName":        config.SecurityConfig.SecurityAPINoHostCommonName,
+			"securityApiNoHostCertSecretName":    config.SecurityConfig.SecurityAPINoHostCertSecretName,
 			"cassandraUsername":                  config.SecurityConfig.CassandraUsername,
 			"cassandraPassword":                  config.SecurityConfig.CassandraPassword,
 			"loggingDashboardEnabled":            config.SecurityConfig.LoggingDashboardEnabled,
@@ -339,7 +368,7 @@ func buildLmConfigImportCm(namespace string, name string) (*corev1.ConfigMap, er
 		return nil, watchtowerCfgErr
 	}
 
-	galileoCfg, galileoCfgErr := galileoConfig("at_least_once", 1, 0, 1, 1)
+	galileoCfg, galileoCfgErr := galileoConfig("at_least_once", 1, 0, 0, 1)
 	if galileoCfgErr != nil {
 		return nil, galileoCfgErr
 	}
