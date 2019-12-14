@@ -22,8 +22,8 @@ spec:
   springProfilesActive: ""
   # deploymentType determines the number of LM service replicas to deploy. It also sets the CPU/memory
   # resource request/limits and the Java heap size.
-  # Allowed values: tiny|middle|ha
-  deploymentType: Middle
+  # Allowed values: tiny|dev|ha
+  deploymentType: dev
   # Docker registry from which to fetch LM service images
   dockerRepo: 10.220.217.248:32736
   # URL of LM release descriptor, detailing which versions of LM services to install
@@ -91,7 +91,7 @@ doki:
 Uninstall LM by deleting the ALM instance:
 
 ```
-kubectl delete ALM middle-alm
+kubectl delete ALM dev-alm
 ```
 
 This will remove all LM services. It may leave some K8s artifacts (secrets) lying around, which you will have to clean up manually:

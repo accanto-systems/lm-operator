@@ -248,7 +248,7 @@ func createDeploymentInfo(instance *comv1alpha1.ALM, reqLogger logr.Logger) (dep
 		deploymentInfo.brent.cpuRequests = "200m"
 		deploymentInfo.brent.memoryRequests = "256Mi"
 		deploymentInfo.brent.heap = "256m"
-	} else if strings.ToLower(instance.Spec.DeploymentType) == "middle" {
+	} else if strings.ToLower(instance.Spec.DeploymentType) == "dev" {
 		deploymentInfo.conductor.numReplicas = int32(1)
 		deploymentInfo.conductor.cpuRequests = "100m"
 		deploymentInfo.conductor.memoryRequests = "128Mi"

@@ -1,12 +1,12 @@
 apiVersion: com.accantosystems.stratoss/v1alpha1
 kind: ALM
 metadata:
-  name: awesome
+  name: alm
 spec:
   secure: true
   springCloudConfigLabel: master
   springProfilesActive: ""
-  deploymentType: Middle
+  deploymentType: Dev
   dockerRepo: nexus.accanto.com:5000
   release: http://10.220.217.248:8086/accanto/lm-operator-releases/raw/master/2.1.0-alpha-2633.yaml
   configurator:
