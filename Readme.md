@@ -5,6 +5,7 @@ LM Operator is a [K8s Operator](https://coreos.com/operators/) that provides a K
 # Limitations
 
 * assumes that dependant services Cassandra, Elasticsearch, Kafka and Vault have already been installed, for example by using [Helm Foundation](http://servicelifecyclemanager.com/2.1.0/installation/lm/production/install-lm/).
+* does not currently reconcile changes to the primary (LM) resource after the initial deploy.
 
 # Developing
 
